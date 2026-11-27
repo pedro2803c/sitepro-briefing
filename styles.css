@@ -1204,3 +1204,9 @@ textarea.invalid {
 .palette-meta .palette-hex { font-size: 14px; letter-spacing: 0; }
 .palette-slot { gap: 8px; padding-right: 4px; }
 .palette-remove { width: 28px; }
+
+/* Logo no mesmo tamanho do site oficial */
+.brand { display: inline-flex; align-items: center; }
+.brand img { height: 46px; width: auto; max-width: none; }
+.topbar-inner { min-height: 78px; }
+@media (max-width: 720px) { .brand img { height: 38px; } .topbar-inner { min-height: 64px; } }

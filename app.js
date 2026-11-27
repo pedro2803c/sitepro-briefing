@@ -29,6 +29,43 @@
   let currentStep = 1;
   let saveTimer = null;
 
+  // ---------- Modelos do portfólio (siteprobrasil.com.br) ----------
+  const MODELS = [
+    { id: 'vellura', name: 'Vellura', seg: 'Psicologia e bem-estar' },
+    { id: 'advocacia', name: 'Martins & Rocha', seg: 'Advocacia' },
+    { id: 'steepl', name: 'Steepl', seg: 'Engenharia' },
+    { id: 'sushi', name: 'Sushi Today', seg: 'Restaurante japonês' },
+    { id: 'sonder', name: 'Sonder House', seg: 'Imobiliária' },
+    { id: 'contabilidade', name: 'Contabilidade Mais', seg: 'Contabilidade' },
+    { id: 'saborearte', name: 'Sabor & Arte', seg: 'Gastronomia' },
+    { id: 'dentora', name: 'Dentora', seg: 'Odontologia' },
+    { id: 'nutrisavvy', name: 'NutriSavvy', seg: 'Nutrição' },
+    { id: 'crust', name: 'Crust Pizza Co.', seg: 'Pizzaria' },
+  ];
+  const modelGrid = document.getElementById('modelGrid');
+  if (modelGrid) {
+    const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    modelGrid.innerHTML =
+      MODELS.map((m, i) => {
+        const value = `${String(i + 1).padStart(2, '0')} · ${m.name} (${m.seg})`;
+        return `<label class="model-card">
+          <input type="radio" name="modelo_referencia" value="${esc(value)}" />
+          <span class="model-shot"><img src="/assets/modelos/${m.id}.webp" alt="Modelo ${esc(m.name)}" loading="lazy" width="640" height="1936" /></span>
+          <span class="model-info">
+            <span class="model-num">${String(i + 1).padStart(2, '0')}</span>
+            <span class="model-txt"><strong>${esc(m.name)}</strong><small>${esc(m.seg)}</small></span>
+            <span class="model-check ms fill">check_circle</span>
+          </span>
+          <a class="model-link" href="https://www.siteprobrasil.com.br/demo?m=${m.id}" target="_blank" rel="noopener">Ver modelo<span class="ms">open_in_new</span></a>
+        </label>`;
+      }).join('') +
+      `<label class="model-card model-none">
+        <input type="radio" name="modelo_referencia" value="Nenhum, prefiro um visual diferente" />
+        <span class="model-none-body"><span class="ms">edit_square</span><strong>Prefiro algo diferente</strong><small>Vou explicar nas referências abaixo</small></span>
+        <span class="model-check ms fill">check_circle</span>
+      </label>`;
+    modelGrid.querySelectorAll('.model-link').forEach((a) => a.addEventListener('click', (e) => e.stopPropagation()));
+  }
   // ---------- Progresso do briefing ----------
   const STEPS = [
     { icon: 'storefront', name: 'Empresa e domínio' },
@@ -190,6 +227,7 @@
       objetivo: getChecked('objetivo'),
       cta_principal: getVal('cta_principal'),
 
+      modelo_referencia: getRadio('modelo_referencia'),
       logo_status: getVal('logo_status'),
       logo_link: getVal('logo_link'),
       manual_marca: getVal('manual_marca'),
@@ -246,8 +284,8 @@
           form.querySelectorAll(`input[name="${key}"]`).forEach((cb) => {
             cb.checked = val.includes(cb.value);
           });
-        } else if (key === 'estilo') {
-          const radio = form.querySelector(`input[name="estilo"][value="${CSS.escape(val)}"]`);
+        } else if (key === 'estilo' || key === 'modelo_referencia') {
+          const radio = form.querySelector(`input[name="${key}"][value="${CSS.escape(val)}"]`);
           if (radio) radio.checked = true;
         } else {
           const el = document.getElementById(key);
@@ -388,6 +426,7 @@
         title: '03 · Identidade Visual',
         step: 3,
         items: [
+          ['Modelo de referência', d.modelo_referencia, true],
           ['Logotipo', d.logo_status],
           ['Link da logo', d.logo_link, true],
           ['PDF / manual da marca', d.manual_marca, true],
@@ -490,6 +529,7 @@
       d.cta_principal ? `• CTA principal: ${d.cta_principal}` : null,
       ``,
       `*03. IDENTIDADE VISUAL*`,
+      d.modelo_referencia ? `• Modelo de referência: ${d.modelo_referencia}` : null,
       `• Logo: ${d.logo_status}`,
       d.logo_link ? `• Link da logo: ${d.logo_link}` : null,
       d.manual_marca ? `• PDF/manual da marca: ${d.manual_marca}` : null,
@@ -604,6 +644,7 @@
       '14_Diferenciais': d.diferenciais || '-',
       '15_Objetivos': d.objetivo.join(', '),
       '16_CTA_Principal': d.cta_principal || '-',
+      '16b_Modelo_Referencia': d.modelo_referencia || '-',
       '17_Logotipo': d.logo_status,
       '17a_Link_Logo': d.logo_link || '-',
       '17b_PDF_Manual_Marca': d.manual_marca || '-',

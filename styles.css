@@ -834,3 +834,203 @@ textarea.invalid {
     border: 1px solid #CCC;
   }
 }
+
+/* ================= Gamificação ================= */
+.ms {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+  flex-shrink: 0;
+}
+.ms.fill { font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
+
+.save-pill .ms { font-size: 16px; color: #22A06B; }
+
+.xp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  background: var(--lime);
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  padding: 4px 11px 4px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.xp-pill .ms { font-size: 17px; }
+.xp-pill.bump { animation: bump 0.45s cubic-bezier(.3,1.6,.5,1); }
+@keyframes bump { 0% { transform: scale(1); } 40% { transform: scale(1.16); } 100% { transform: scale(1); } }
+
+.chip { display: inline-flex; align-items: center; gap: 6px; }
+.chip .ms { font-size: 17px; color: var(--ink); }
+
+/* Player card */
+.player-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px 22px;
+  align-items: center;
+  background: var(--ink);
+  color: #FFFFFF;
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 14px 34px rgba(11, 11, 12, 0.18);
+  background-image:
+    linear-gradient(rgba(213,246,90,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(213,246,90,0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.pc-level { display: flex; align-items: center; gap: 12px; }
+.pc-emblem {
+  position: relative;
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: var(--lime);
+  color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+}
+.pc-emblem .ms { font-size: 30px; }
+.pc-emblem b {
+  position: absolute; right: -7px; bottom: -7px;
+  min-width: 24px; height: 24px; padding: 0 5px;
+  border-radius: 999px;
+  background: #FFFFFF; color: var(--ink);
+  border: 2px solid var(--ink);
+  font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.pc-level-txt small { display: block; font-size: 11.5px; color: #A8A8A2; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.pc-level-txt strong { font-family: 'Manrope', sans-serif; font-size: 17px; font-weight: 800; }
+.pc-xp-head { display: flex; justify-content: space-between; gap: 10px; font-size: 12.5px; color: #CFCFC9; margin-bottom: 7px; }
+.pc-xp-head b { color: var(--lime); font-family: 'Manrope', sans-serif; }
+.pc-track { height: 12px; border-radius: 999px; background: #222225; overflow: hidden; border: 1px solid #2E2E32; }
+.pc-fill {
+  height: 100%; width: 0;
+  border-radius: 999px;
+  background: repeating-linear-gradient(-45deg, #D5F65A 0 10px, #C2E544 10px 20px);
+  background-size: 28px 28px;
+  animation: stripes 1.2s linear infinite;
+  transition: width .5s cubic-bezier(.2,.9,.3,1);
+}
+@keyframes stripes { to { background-position: 28px 0; } }
+.pc-badges { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.badge-slot {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 9px 4px 8px;
+  border-radius: 12px;
+  border: 1px dashed #3A3A3F;
+  color: #6E6E68;
+  text-align: center;
+  transition: all .25s ease;
+}
+.badge-slot .ms { font-size: 22px; }
+.badge-slot small { font-size: 10.5px; font-weight: 600; line-height: 1.2; }
+.badge-slot.on { border: 1px solid var(--lime); background: rgba(213,246,90,0.1); color: var(--lime); }
+.badge-slot.on small { color: #FFFFFF; }
+.badge-slot.pop { animation: pop .6s cubic-bezier(.3,1.7,.5,1); }
+@keyframes pop { 0% { transform: scale(.6); } 60% { transform: scale(1.12); } 100% { transform: scale(1); } }
+
+/* Stepper como mapa de missões */
+.step-tab { position: relative; padding: 11px 6px 10px; gap: 3px; }
+.tab-ico { position: relative; width: 26px; height: 24px; display: flex; align-items: center; justify-content: center; }
+.tab-ico .ms { font-size: 22px; }
+.tab-ico .i-done { display: none; color: #5E8A00; }
+.step-tab.completed .i-main { display: none; }
+.step-tab.completed .i-done { display: inline-block; }
+.step-tab .num { font-size: 10px; letter-spacing: .05em; }
+.step-tab.active .tab-ico .ms { color: var(--lime); }
+.step-tab.active.completed .i-done { color: var(--lime); }
+.step-tab.active { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(11,11,12,.18); }
+
+/* Cabeçalho da missão */
+.mission-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.panel-kicker { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 0; color: var(--ink); }
+.panel-kicker .ms { font-size: 18px; background: var(--lime); border-radius: 8px; padding: 4px; border: 1.5px solid var(--ink); }
+.reward {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 12px;
+  color: var(--ink); background: #F3F3F0; border: 1px solid var(--border-strong);
+  padding: 4px 10px 4px 6px; border-radius: 999px;
+}
+.reward .ms { font-size: 16px; }
+.mission-meter { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+.mm-track { flex: 1; height: 8px; border-radius: 999px; background: #ECECE8; overflow: hidden; }
+.mm-fill { height: 100%; width: 0; background: var(--ink); border-radius: 999px; transition: width .35s ease; }
+.mm-text { font-size: 12px; font-weight: 700; color: var(--ink-soft); white-space: nowrap; font-family: 'Manrope', sans-serif; }
+
+.info-box { display: flex; gap: 8px; align-items: flex-start; }
+.info-box .ms { font-size: 19px; }
+.info-box strong { white-space: nowrap; }
+
+.btn .ms { font-size: 19px; }
+.btn.loading .btn-ico { display: none; }
+
+/* Sucesso */
+.success-icon { width: 76px; height: 76px; border-radius: 22px; animation: pop .7s cubic-bezier(.3,1.7,.5,1); }
+.success-icon .ms { font-size: 42px; }
+.success-badges { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; max-width: 640px; margin: 18px auto 22px; padding: 14px; background: var(--ink); border-radius: 16px; }
+
+/* Toast de conquista */
+.toast {
+  position: fixed; left: 50%; bottom: 24px; z-index: 80;
+  display: flex; align-items: center; gap: 12px;
+  background: var(--ink); color: #FFFFFF;
+  border: 1.5px solid var(--lime);
+  border-radius: 16px;
+  padding: 12px 18px 12px 12px;
+  box-shadow: 0 18px 40px rgba(11,11,12,.35);
+  transform: translate(-50%, 140%);
+  opacity: 0;
+  transition: transform .45s cubic-bezier(.2,1.4,.4,1), opacity .3s ease;
+  max-width: calc(100% - 32px);
+}
+.toast.show { transform: translate(-50%, 0); opacity: 1; }
+.toast-emblem { width: 46px; height: 46px; border-radius: 12px; background: var(--lime); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.toast-emblem .ms { font-size: 28px; }
+.toast-txt small { display: block; font-family: 'Manrope', sans-serif; font-size: 10.5px; font-weight: 800; letter-spacing: .08em; color: var(--lime); }
+.toast-txt strong { display: block; font-family: 'Manrope', sans-serif; font-size: 15px; }
+.toast-txt span { font-size: 12.5px; color: #CFCFC9; }
+.confetti { position: absolute; left: 35px; top: 50%; pointer-events: none; }
+.confetti i {
+  position: absolute; width: 7px; height: 7px; border-radius: 2px;
+  background: var(--lime); opacity: 0;
+}
+.confetti i.k { background: #FFFFFF; }
+.toast.show .confetti i { animation: burst .8s ease-out var(--d) forwards; }
+@keyframes burst {
+  0% { transform: translate(0,0) rotate(0); opacity: 1; }
+  100% { transform: translate(var(--x), var(--y)) rotate(200deg); opacity: 0; }
+}
+
+@media (max-width: 720px) {
+  .xp-pill { font-size: 12px; }
+  .step-counter { display: none; }
+  .player-card { grid-template-columns: 1fr; padding: 16px; }
+  .pc-badges, .success-badges { grid-template-columns: repeat(3, 1fr); }
+  .reward { font-size: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-fill, .xp-pill.bump, .badge-slot.pop, .success-icon, .toast.show .confetti i { animation: none !important; }
+}
+
+@media print {
+  .player-card, .toast, .mission-meter { display: none !important; }
+}
+
+.toast-emblem { position: relative; z-index: 2; }
+.confetti { z-index: 1; }

@@ -29,6 +29,138 @@
   let currentStep = 1;
   let saveTimer = null;
 
+  // ---------- Gamificação (XP, níveis e conquistas) ----------
+  const XP_PER_FIELD = 10;
+  const XP_PER_MISSION = 100;
+  const MISSIONS = [
+    { icon: 'storefront', badge: 'Marca no mapa' },
+    { icon: 'work', badge: 'Negócio definido' },
+    { icon: 'palette', badge: 'Visual escolhido' },
+    { icon: 'dashboard', badge: 'Estrutura montada' },
+    { icon: 'forum', badge: 'Canais conectados' },
+    { icon: 'rocket_launch', badge: 'Pronto para lançar' },
+  ];
+  const LEVELS = ['Visitante', 'Fundador', 'Estrategista', 'Diretor de arte', 'Arquiteto do site', 'Conector', 'Lançamento confirmado'];
+  let doneMissions = new Set();
+
+  const xpValue = document.getElementById('xpValue');
+  const xpText = document.getElementById('xpText');
+  const xpMaxEl = document.getElementById('xpMax');
+  const xpFill = document.getElementById('xpFill');
+  const levelNum = document.getElementById('levelNum');
+  const levelNumTxt = document.getElementById('levelNumTxt');
+  const levelName = document.getElementById('levelName');
+  const nextGoal = document.getElementById('nextGoal');
+  const badgeRow = document.getElementById('badgeRow');
+  const successBadges = document.getElementById('successBadges');
+  const toast = document.getElementById('toast');
+  let lastXp = 0;
+  let toastTimer = null;
+
+  // Itens que contam XP em cada missão (selects não contam: já vêm preenchidos)
+  function trackedItems(panel) {
+    const items = [];
+    const seenGroups = new Set();
+    panel.querySelectorAll('input, textarea').forEach((el) => {
+      if (el.classList.contains('hp-field') || el.id === 'lgpd') return;
+      if (el.type === 'checkbox' || el.type === 'radio') {
+        if (seenGroups.has(el.name)) return;
+        seenGroups.add(el.name);
+        items.push(() => panel.querySelectorAll(`input[name="${el.name}"]:checked`).length > 0);
+      } else {
+        items.push(() => el.value.trim().length > 0);
+      }
+    });
+    if (panel.querySelector('#lgpd')) items.push(() => document.getElementById('lgpd').checked);
+    return items;
+  }
+  const panelItems = panels.map(trackedItems);
+  const MAX_XP = panelItems.reduce((s, it) => s + it.length * XP_PER_FIELD, 0) + MISSIONS.length * XP_PER_MISSION;
+
+  // Medidor de campos dentro de cada missão
+  panels.forEach((panel, idx) => {
+    const head = panel.querySelector('.panel-head');
+    const meter = document.createElement('div');
+    meter.className = 'mission-meter';
+    meter.innerHTML = `<div class="mm-track"><div class="mm-fill"></div></div><span class="mm-text"></span>`;
+    head.appendChild(meter);
+    panel._meter = meter;
+    panel._idx = idx;
+  });
+
+  function renderBadges(target) {
+    target.innerHTML = MISSIONS.map((m, i) => {
+      const on = doneMissions.has(i + 1);
+      return `<div class="badge-slot ${on ? 'on' : ''}" title="${on ? 'Conquista desbloqueada' : 'Bloqueada'}: ${m.badge}">
+        <span class="ms ${on ? 'fill' : ''}">${on ? m.icon : 'lock'}</span>
+        <small>${m.badge}</small>
+      </div>`;
+    }).join('');
+  }
+
+  function updateGame() {
+    let fieldXp = 0;
+    panels.forEach((panel, idx) => {
+      const items = panelItems[idx];
+      const filled = items.filter((fn) => fn()).length;
+      fieldXp += filled * XP_PER_FIELD;
+      const pct = items.length ? Math.round((filled / items.length) * 100) : 0;
+      panel._meter.querySelector('.mm-fill').style.width = pct + '%';
+      panel._meter.querySelector('.mm-text').textContent = `${filled}/${items.length} campos · +${filled * XP_PER_FIELD} XP`;
+    });
+    const xp = fieldXp + doneMissions.size * XP_PER_MISSION;
+    const lvl = doneMissions.size;
+
+    xpValue.textContent = xp;
+    xpText.textContent = xp;
+    xpMaxEl.textContent = MAX_XP;
+    xpFill.style.width = Math.min(100, (xp / MAX_XP) * 100) + '%';
+    levelNum.textContent = lvl + 1;
+    levelNumTxt.textContent = lvl + 1;
+    levelName.textContent = LEVELS[lvl];
+    const next = MISSIONS.findIndex((_, i) => !doneMissions.has(i + 1));
+    nextGoal.textContent = next === -1 ? 'Todas as conquistas desbloqueadas' : `Próxima conquista: ${MISSIONS[next].badge}`;
+
+    if (xp > lastXp) {
+      const pill = xpValue.parentElement;
+      pill.classList.remove('bump');
+      void pill.offsetWidth;
+      pill.classList.add('bump');
+    }
+    lastXp = xp;
+    renderBadges(badgeRow);
+  }
+
+  function showToast(missionNum) {
+    const m = MISSIONS[missionNum - 1];
+    document.getElementById('toastIcon').textContent = m.icon;
+    document.getElementById('toastKicker').textContent = `MISSÃO 0${missionNum} CONCLUÍDA`;
+    document.getElementById('toastTitle').textContent = `Conquista: ${m.badge}`;
+    document.getElementById('toastSub').textContent = `+${XP_PER_MISSION} XP · Nível ${doneMissions.size + 1}: ${LEVELS[doneMissions.size]}`;
+    const confetti = document.getElementById('confetti');
+    confetti.innerHTML = Array.from({ length: 16 }, (_, i) =>
+      `<i style="--x:${Math.round(Math.cos((i / 16) * 6.283) * 70)}px;--y:${Math.round(Math.sin((i / 16) * 6.283) * 46)}px;--d:${(i % 4) * 40}ms" class="${i % 3 === 0 ? 'k' : ''}"></i>`
+    ).join('');
+    toast.hidden = false;
+    toast.classList.remove('show');
+    void toast.offsetWidth;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => (toast.hidden = true), 300);
+    }, 3200);
+  }
+
+  function completeMission(step) {
+    if (doneMissions.has(step)) return;
+    doneMissions.add(step);
+    updateGame();
+    showToast(step);
+    const slot = badgeRow.children[step - 1];
+    if (slot) slot.classList.add('pop');
+  }
+
   // Phone mask (Brazil)
   function formatPhone(value) {
     const digits = value.replace(/\D/g, '').slice(0, 11);
@@ -123,13 +255,15 @@
     try {
       const data = getData();
       data._step = currentStep;
+      data._done = Array.from(doneMissions);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      if (saveStatusText) saveStatusText.textContent = 'Rascunho salvo';
+      if (saveStatusText) saveStatusText.textContent = 'Progresso salvo';
     } catch (_) {}
   }
 
   function scheduleSave() {
     if (saveStatusText) saveStatusText.textContent = 'Salvando...';
+    updateGame();
     clearTimeout(saveTimer);
     saveTimer = setTimeout(saveDraft, 350);
   }
@@ -155,10 +289,11 @@
         }
       });
 
+      if (Array.isArray(data._done)) doneMissions = new Set(data._done.filter((n) => n >= 1 && n <= TOTAL_STEPS));
       if (data._step && data._step >= 1 && data._step <= TOTAL_STEPS) {
         goToStep(data._step, false);
       }
-      if (saveStatusText) saveStatusText.textContent = 'Rascunho recuperado';
+      if (saveStatusText) saveStatusText.textContent = 'Progresso recuperado';
     } catch (_) {}
   }
 
@@ -417,10 +552,10 @@
     tabs.forEach((t, idx) => {
       const s = idx + 1;
       t.classList.toggle('active', s === currentStep);
-      t.classList.toggle('completed', s < currentStep);
+      t.classList.toggle('completed', doneMissions.has(s));
     });
 
-    stepCounter.textContent = `Etapa ${currentStep} de ${TOTAL_STEPS}`;
+    stepCounter.textContent = `Missão ${currentStep} de ${TOTAL_STEPS}`;
     progressFill.style.width = `${(currentStep / TOTAL_STEPS) * 100}%`;
 
     prevBtn.hidden = currentStep === 1;
@@ -440,7 +575,10 @@
 
   prevBtn.addEventListener('click', () => goToStep(currentStep - 1));
   nextBtn.addEventListener('click', () => {
-    if (validateStep(currentStep)) goToStep(currentStep + 1);
+    if (validateStep(currentStep)) {
+      completeMission(currentStep);
+      goToStep(currentStep + 1);
+    }
   });
 
   tabs.forEach((tab) => {
@@ -462,7 +600,7 @@
     submitError.hidden = true;
     submitBtn.disabled = true;
     submitBtn.classList.add('loading');
-    submitBtn.querySelector('.btn-label').textContent = 'Enviando briefing...';
+    submitBtn.querySelector('.btn-label').textContent = 'Lançando briefing...';
 
     const d = getData();
     const payload = {
@@ -517,6 +655,8 @@
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
 
       // Show success state
+      completeMission(6);
+      renderBadges(successBadges);
       renderReview(successReviewBox, false);
       successWaBtn.href = buildWhatsAppUrl(true);
       form.hidden = true;
@@ -524,8 +664,9 @@
       stepperNav.hidden = true;
       successSection.hidden = false;
       progressFill.style.width = '100%';
-      stepCounter.textContent = 'Concluído ✓';
+      stepCounter.textContent = 'Missão cumprida';
       if (saveStatusText) saveStatusText.textContent = 'Briefing enviado';
+      goToStepTabsDone();
       localStorage.removeItem(STORAGE_KEY);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (_) {
@@ -533,7 +674,7 @@
       submitError.hidden = false;
       submitBtn.disabled = false;
       submitBtn.classList.remove('loading');
-      submitBtn.querySelector('.btn-label').textContent = 'Tentar enviar novamente →';
+      submitBtn.querySelector('.btn-label').textContent = 'Tentar enviar novamente';
     }
   });
 
@@ -541,8 +682,9 @@
   copySummaryBtn.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(buildPlainSummary());
-      copySummaryBtn.textContent = 'Resumo copiado ✓';
-      setTimeout(() => (copySummaryBtn.textContent = 'Copiar resumo do briefing'), 2500);
+      const lbl = copySummaryBtn.querySelector('.btn-txt');
+      lbl.textContent = 'Resumo copiado';
+      setTimeout(() => (lbl.textContent = 'Copiar resumo do briefing'), 2500);
     } catch (_) {}
   });
 
@@ -553,6 +695,12 @@
     window.location.reload();
   });
 
+  function goToStepTabsDone() {
+    tabs.forEach((t, idx) => t.classList.toggle('completed', doneMissions.has(idx + 1)));
+  }
+
   // Init
   restoreDraft();
+  goToStep(currentStep, false);
+  updateGame();
 })();

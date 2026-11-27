@@ -259,15 +259,102 @@
     });
   });
 
-  // Color palette presets
+  // ---------- Seletor de cores da marca (até 4) ----------
+  const MAX_COLORS = 4;
+  const COLOR_ROLES = ['Principal', 'Secundária', 'Destaque', 'Apoio'];
+  const DEFAULT_COLORS = ['#1F3A5F', '#F2F2F2', '#E0A526', '#2E2E2E'];
+  const paletteSlots = document.getElementById('paletteSlots');
+  const paletteAdd = document.getElementById('paletteAdd');
+  const paletaInput = document.getElementById('paleta');
+  let palette = [];
+
+  const normHex = (v) => {
+    let h = String(v || '').trim().replace(/^#?/, '#').toUpperCase();
+    if (/^#[0-9A-F]{3}$/.test(h)) h = '#' + h.slice(1).split('').map((c) => c + c).join('');
+    return /^#[0-9A-F]{6}$/.test(h) ? h : null;
+  };
+
+  function syncPalette() {
+    paletaInput.value = palette.map((c, i) => `${COLOR_ROLES[i]} ${c}`).join(', ');
+    scheduleSave();
+  }
+
+  function renderPalette() {
+    paletteSlots.innerHTML = palette.map((c, i) => `
+      <div class="palette-slot" data-i="${i}">
+        <label class="palette-swatch" style="--c:${c}" title="Escolher cor ${COLOR_ROLES[i].toLowerCase()}">
+          <input type="color" value="${c.toLowerCase()}" data-i="${i}" aria-label="Cor ${COLOR_ROLES[i]}" />
+        </label>
+        <div class="palette-meta">
+          <small>${COLOR_ROLES[i]}</small>
+          <input type="text" class="palette-hex" value="${c}" maxlength="7" spellcheck="false" data-i="${i}" aria-label="Código HEX da cor ${COLOR_ROLES[i]}" />
+        </div>
+        <button type="button" class="palette-remove" data-i="${i}" aria-label="Remover cor ${COLOR_ROLES[i]}"><span class="ms">close</span></button>
+      </div>`).join('');
+    paletteAdd.hidden = palette.length >= MAX_COLORS;
+    paletteAdd.querySelector('.ms').nextSibling.textContent = palette.length ? `Adicionar cor (${palette.length}/${MAX_COLORS})` : 'Adicionar cor';
+  }
+
+  paletteSlots.addEventListener('input', (e) => {
+    const i = Number(e.target.dataset.i);
+    if (e.target.type === 'color') {
+      palette[i] = e.target.value.toUpperCase();
+      const slot = e.target.closest('.palette-slot');
+      slot.querySelector('.palette-swatch').style.setProperty('--c', palette[i]);
+      slot.querySelector('.palette-hex').value = palette[i];
+      syncPalette();
+    } else if (e.target.classList.contains('palette-hex')) {
+      const h = normHex(e.target.value);
+      e.target.classList.toggle('invalid', !h && e.target.value.length > 0);
+      if (h) {
+        palette[i] = h;
+        const slot = e.target.closest('.palette-slot');
+        slot.querySelector('.palette-swatch').style.setProperty('--c', h);
+        slot.querySelector('input[type="color"]').value = h.toLowerCase();
+        syncPalette();
+      }
+    }
+    e.stopPropagation();
+  });
+  paletteSlots.addEventListener('change', (e) => e.stopPropagation());
+  paletteSlots.addEventListener('focusout', (e) => {
+    if (e.target.classList.contains('palette-hex')) {
+      e.target.value = palette[Number(e.target.dataset.i)];
+      e.target.classList.remove('invalid');
+    }
+  });
+  paletteSlots.addEventListener('click', (e) => {
+    const btn = e.target.closest('.palette-remove');
+    if (!btn) return;
+    palette.splice(Number(btn.dataset.i), 1);
+    renderPalette();
+    syncPalette();
+  });
+  paletteAdd.addEventListener('click', () => {
+    if (palette.length >= MAX_COLORS) return;
+    const used = new Set(palette);
+    palette.push(DEFAULT_COLORS.find((c) => !used.has(c)) || '#888888');
+    renderPalette();
+    syncPalette();
+    const last = paletteSlots.querySelector('.palette-slot:last-child input[type="color"]');
+    if (last) { try { last.showPicker ? last.showPicker() : last.click(); } catch (_) { last.click(); } }
+  });
+
   document.querySelectorAll('.swatch-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
+      palette = btn.dataset.hex.split(',').map(normHex).filter(Boolean).slice(0, MAX_COLORS);
       const coresInput = document.getElementById('cores');
-      coresInput.value = btn.dataset.palette;
-      coresInput.focus();
-      scheduleSave();
+      if (!coresInput.value.trim()) coresInput.value = btn.dataset.palette;
+      renderPalette();
+      syncPalette();
     });
   });
+
+  function restorePalette() {
+    palette = (paletaInput.value.match(/#[0-9A-Fa-f]{6}/g) || []).map(normHex).slice(0, MAX_COLORS);
+    renderPalette();
+  }
+  renderPalette();
 
   // Copy WhatsApp from Step 1
   if (copyWhatsBtn) {
@@ -314,6 +401,7 @@
       logo_link: getVal('logo_link'),
       manual_marca: getVal('manual_marca'),
       tema_fundo: getVal('tema_fundo'),
+      paleta: getVal('paleta'),
       cores: getVal('cores'),
       estilo: getRadio('estilo'),
       referencias: getVal('referencias'),
@@ -514,6 +602,7 @@
           ['PDF / manual da marca', d.manual_marca, true],
           ['Estilo visual', d.estilo],
           ['Tema de fundo', d.tema_fundo],
+          ['Paleta da marca', d.paleta, true],
           ['Cores preferidas', d.cores],
           ['Referências visuais', d.referencias, true],
           ['Evitar no site', d.nao_gosta, true],
@@ -617,6 +706,7 @@
       d.manual_marca ? `• PDF/manual da marca: ${d.manual_marca}` : null,
       `• Estilo: ${d.estilo}`,
       `• Fundo: ${d.tema_fundo}`,
+      d.paleta ? `• Paleta: ${d.paleta}` : null,
       d.cores ? `• Cores: ${d.cores}` : null,
       d.referencias ? `• Referências: ${d.referencias}` : null,
       d.nao_gosta ? `• Evitar: ${d.nao_gosta}` : null,
@@ -732,7 +822,8 @@
       '17b_PDF_Manual_Marca': d.manual_marca || '-',
       '18_Estilo_Visual': d.estilo,
       '19_Tema_Fundo': d.tema_fundo,
-      '20_Cores': d.cores || '-',
+      '20_Paleta_HEX': d.paleta || '-',
+      '20a_Cores_Descricao': d.cores || '-',
       '21_Referencias': d.referencias || '-',
       '22_Evitar': d.nao_gosta || '-',
       '23_Secoes': d.secoes.join(', '),
@@ -807,6 +898,7 @@
 
   // Init
   restoreDraft();
+  restorePalette();
   goToStep(currentStep, false);
   updateGame();
 })();

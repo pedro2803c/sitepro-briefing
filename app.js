@@ -404,6 +404,10 @@
       paleta: getVal('paleta'),
       cores: getVal('cores'),
       estilo: getRadio('estilo'),
+      ref1_url: getVal('ref1_url'), ref1_nota: getVal('ref1_nota'),
+      ref2_url: getVal('ref2_url'), ref2_nota: getVal('ref2_nota'),
+      ref3_url: getVal('ref3_url'), ref3_nota: getVal('ref3_nota'),
+      site_atual: getVal('site_atual'), site_atual_nota: getVal('site_atual_nota'),
       referencias: getVal('referencias'),
       nao_gosta: getVal('nao_gosta'),
 
@@ -422,6 +426,11 @@
       observacoes: getVal('observacoes'),
       lgpd: document.getElementById('lgpd').checked,
     };
+  }
+
+  function refLine(url, nota) {
+    if (!url) return '';
+    return nota ? `${url} · ${nota}` : url;
   }
 
   // Save / Restore draft
@@ -529,7 +538,7 @@
     }
 
     if (step === 3) {
-      ['logo_link', 'manual_marca'].forEach((id) => {
+      ['logo_link', 'manual_marca', 'ref1_url', 'ref2_url', 'ref3_url', 'site_atual'].forEach((id) => {
         const val = (document.getElementById(id).value || '').trim();
         if (val && !/^https?:\/\/\S+\.\S+/i.test(val)) {
           setErr(id, 'Cole o link completo, começando com https://');
@@ -604,7 +613,11 @@
           ['Tema de fundo', d.tema_fundo],
           ['Paleta da marca', d.paleta, true],
           ['Cores preferidas', d.cores],
-          ['Referências visuais', d.referencias, true],
+          ['Site de exemplo 01', refLine(d.ref1_url, d.ref1_nota), true],
+          ['Site de exemplo 02', refLine(d.ref2_url, d.ref2_nota), true],
+          ['Site de exemplo 03', refLine(d.ref3_url, d.ref3_nota), true],
+          ['Site atual', refLine(d.site_atual, d.site_atual_nota), true],
+          ['Observações sobre o visual', d.referencias, true],
           ['Evitar no site', d.nao_gosta, true],
         ],
       },
@@ -708,7 +721,11 @@
       `• Fundo: ${d.tema_fundo}`,
       d.paleta ? `• Paleta: ${d.paleta}` : null,
       d.cores ? `• Cores: ${d.cores}` : null,
-      d.referencias ? `• Referências: ${d.referencias}` : null,
+      d.ref1_url ? `• Exemplo 01: ${refLine(d.ref1_url, d.ref1_nota)}` : null,
+      d.ref2_url ? `• Exemplo 02: ${refLine(d.ref2_url, d.ref2_nota)}` : null,
+      d.ref3_url ? `• Exemplo 03: ${refLine(d.ref3_url, d.ref3_nota)}` : null,
+      d.site_atual ? `• Site atual: ${refLine(d.site_atual, d.site_atual_nota)}` : null,
+      d.referencias ? `• Obs. visual: ${d.referencias}` : null,
       d.nao_gosta ? `• Evitar: ${d.nao_gosta}` : null,
       ``,
       `*04. ESTRUTURA E MATERIAIS*`,
@@ -824,7 +841,11 @@
       '19_Tema_Fundo': d.tema_fundo,
       '20_Paleta_HEX': d.paleta || '-',
       '20a_Cores_Descricao': d.cores || '-',
-      '21_Referencias': d.referencias || '-',
+      '21a_Exemplo_01': refLine(d.ref1_url, d.ref1_nota) || '-',
+      '21b_Exemplo_02': refLine(d.ref2_url, d.ref2_nota) || '-',
+      '21c_Exemplo_03': refLine(d.ref3_url, d.ref3_nota) || '-',
+      '21d_Site_Atual': refLine(d.site_atual, d.site_atual_nota) || '-',
+      '21e_Obs_Visual': d.referencias || '-',
       '22_Evitar': d.nao_gosta || '-',
       '23_Secoes': d.secoes.join(', '),
       '24_Fotos': d.fotos_status,

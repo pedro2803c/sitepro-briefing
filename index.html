@@ -26,8 +26,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,0..1,0&icon_names=add,arrow_back,arrow_forward,check,check_circle,close,cloud_done,content_copy,dashboard,edit_square,folder_open,forum,image,lightbulb,open_in_new,palette,picture_as_pdf,print,restart_alt,schedule,send,shield_lock,storefront,work&display=block" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=11" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,0..1,0&icon_names=add,arrow_back,arrow_forward,check,check_circle,close,cloud_done,content_copy,dashboard,edit_square,folder_open,forum,image,lightbulb,link,open_in_new,palette,picture_as_pdf,print,restart_alt,schedule,send,shield_lock,storefront,work&display=block" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css?v=12" />
 </head>
 <body>
   <header class="topbar">
@@ -315,9 +315,67 @@
           </div>
         </div>
 
+        <div class="ref-box">
+          <div class="brand-files-head">
+            <span class="ms">link</span>
+            <div>
+              <strong>Sites de exemplo para o seu novo site</strong>
+              <small>Cole até 3 links de sites que você gosta, de qualquer segmento, e conte o que chamou sua atenção em cada um.</small>
+            </div>
+          </div>
+          <div class="ref-row">
+            <span class="ref-num">01</span>
+            <div class="field">
+              <label for="ref1_url">Link do site</label>
+              <input id="ref1_url" name="ref1_url" type="url" inputmode="url" maxlength="300" placeholder="https://www.exemplo.com.br" />
+              <span class="err" data-err-for="ref1_url"></span>
+            </div>
+            <div class="field">
+              <label for="ref1_nota">O que você gostou nele?</label>
+              <input id="ref1_nota" name="ref1_nota" type="text" maxlength="200" placeholder="Ex.: cores, fotos grandes, menu simples" />
+            </div>
+          </div>
+          <div class="ref-row">
+            <span class="ref-num">02</span>
+            <div class="field">
+              <label for="ref2_url">Link do site</label>
+              <input id="ref2_url" name="ref2_url" type="url" inputmode="url" maxlength="300" placeholder="https://www.exemplo.com.br" />
+              <span class="err" data-err-for="ref2_url"></span>
+            </div>
+            <div class="field">
+              <label for="ref2_nota">O que você gostou nele?</label>
+              <input id="ref2_nota" name="ref2_nota" type="text" maxlength="200" placeholder="Ex.: organização dos serviços" />
+            </div>
+          </div>
+          <div class="ref-row">
+            <span class="ref-num">03</span>
+            <div class="field">
+              <label for="ref3_url">Link do site</label>
+              <input id="ref3_url" name="ref3_url" type="url" inputmode="url" maxlength="300" placeholder="https://www.exemplo.com.br" />
+              <span class="err" data-err-for="ref3_url"></span>
+            </div>
+            <div class="field">
+              <label for="ref3_nota">O que você gostou nele?</label>
+              <input id="ref3_nota" name="ref3_nota" type="text" maxlength="200" placeholder="Ex.: botão de WhatsApp em destaque" />
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="site_atual">Seu site atual <span class="opt">(se já tem e quer um novo)</span></label>
+              <input id="site_atual" name="site_atual" type="url" inputmode="url" maxlength="300" placeholder="https://www.suaempresa.com.br" />
+              <span class="err" data-err-for="site_atual"></span>
+            </div>
+            <div class="field">
+              <label for="site_atual_nota">O que você quer mudar nele?</label>
+              <input id="site_atual_nota" name="site_atual_nota" type="text" maxlength="240" placeholder="Ex.: visual antigo, não funciona bem no celular" />
+            </div>
+          </div>
+        </div>
+
         <div class="field">
-          <label for="referencias">Sites de referência que você gosta <span class="opt">(opcional)</span></label>
-          <textarea id="referencias" name="referencias" rows="3" maxlength="800" placeholder="Cole 1 a 3 links de sites que você acha bonitos e diga o que gostou neles (cores, organização, fotos...)."></textarea>
+          <label for="referencias">Mais alguma observação sobre o visual? <span class="opt">(opcional)</span></label>
+          <textarea id="referencias" name="referencias" rows="2" maxlength="800" placeholder="Ex.: perfis do Instagram que inspiram, estilo de fotos, algo que viu em um concorrente..."></textarea>
         </div>
 
         <div class="field">
@@ -508,6 +566,6 @@
 
   </div>
 
-  <script src="/app.js?v=9" defer></script>
+  <script src="/app.js?v=10" defer></script>
 </body>
 </html>

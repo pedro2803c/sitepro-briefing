@@ -1034,3 +1034,42 @@ textarea.invalid {
 
 .toast-emblem { position: relative; z-index: 2; }
 .confetti { z-index: 1; }
+
+/* ===== Versão comercial (sobrescreve o estilo de jogo) ===== */
+.brand img { height: 36px; width: auto; }
+.player-card {
+  background: var(--surface);
+  background-image: none;
+  color: var(--ink);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 16px 22px;
+}
+.pc-ring {
+  --p: 0;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: conic-gradient(var(--ink) calc(var(--p) * 1%), #ECECE8 0);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; flex-shrink: 0;
+  transition: background .4s ease;
+}
+.pc-ring::before { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: #FFFFFF; }
+.pc-ring span { position: relative; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 14px; }
+.pc-level-txt small { color: var(--muted); }
+.pc-level-txt strong { color: var(--ink); }
+.pc-xp-head { color: var(--ink-soft); }
+.pc-xp-head b { color: var(--ink); }
+.pc-track { background: #ECECE8; border: 0; height: 8px; }
+.pc-fill { background: var(--ink); animation: none; }
+.step-tab.active { transform: none; box-shadow: none; }
+.tab-ico .i-done { color: var(--ink); }
+.step-tab.completed { background: #FFFFFF; border-color: var(--border-strong); }
+.step-tab.completed .num { opacity: .65; }
+.panel-kicker .ms { background: #F3F3F0; border: 1px solid var(--border); }
+.success-icon { border-radius: 50%; animation: none; }
+.toast { border-color: #2E2E32; }
+.toast-emblem { width: 36px; height: 36px; border-radius: 50%; }
+.toast-emblem .ms { font-size: 22px; }
+
+.hero h1, .hero-sub { text-wrap: balance; }
+.hero h1 { max-width: 760px; }

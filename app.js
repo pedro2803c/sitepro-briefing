@@ -29,35 +29,28 @@
   let currentStep = 1;
   let saveTimer = null;
 
-  // ---------- Gamificação (XP, níveis e conquistas) ----------
-  const XP_PER_FIELD = 10;
-  const XP_PER_MISSION = 100;
-  const MISSIONS = [
-    { icon: 'storefront', badge: 'Marca no mapa' },
-    { icon: 'work', badge: 'Negócio definido' },
-    { icon: 'palette', badge: 'Visual escolhido' },
-    { icon: 'dashboard', badge: 'Estrutura montada' },
-    { icon: 'forum', badge: 'Canais conectados' },
-    { icon: 'rocket_launch', badge: 'Pronto para lançar' },
+  // ---------- Progresso do briefing ----------
+  const STEPS = [
+    { icon: 'storefront', name: 'Empresa e domínio' },
+    { icon: 'work', name: 'Negócio e serviços' },
+    { icon: 'palette', name: 'Identidade visual' },
+    { icon: 'dashboard', name: 'Estrutura e materiais' },
+    { icon: 'forum', name: 'Canais e redes' },
+    { icon: 'send', name: 'Revisão e envio' },
   ];
-  const LEVELS = ['Visitante', 'Fundador', 'Estrategista', 'Diretor de arte', 'Arquiteto do site', 'Conector', 'Lançamento confirmado'];
   let doneMissions = new Set();
 
-  const xpValue = document.getElementById('xpValue');
   const xpText = document.getElementById('xpText');
   const xpMaxEl = document.getElementById('xpMax');
   const xpFill = document.getElementById('xpFill');
-  const levelNum = document.getElementById('levelNum');
-  const levelNumTxt = document.getElementById('levelNumTxt');
+  const pctValue = document.getElementById('pctValue');
+  const pcRing = document.getElementById('pcRing');
   const levelName = document.getElementById('levelName');
   const nextGoal = document.getElementById('nextGoal');
-  const badgeRow = document.getElementById('badgeRow');
-  const successBadges = document.getElementById('successBadges');
   const toast = document.getElementById('toast');
-  let lastXp = 0;
   let toastTimer = null;
 
-  // Itens que contam XP em cada missão (selects não contam: já vêm preenchidos)
+  // Itens que contam no progresso (selects não contam: já vêm preenchidos)
   function trackedItems(panel) {
     const items = [];
     const seenGroups = new Set();
@@ -75,72 +68,45 @@
     return items;
   }
   const panelItems = panels.map(trackedItems);
-  const MAX_XP = panelItems.reduce((s, it) => s + it.length * XP_PER_FIELD, 0) + MISSIONS.length * XP_PER_MISSION;
+  const TOTAL_ITEMS = panelItems.reduce((s, it) => s + it.length, 0);
 
-  // Medidor de campos dentro de cada missão
-  panels.forEach((panel, idx) => {
+  // Medidor de respostas dentro de cada etapa
+  panels.forEach((panel) => {
     const head = panel.querySelector('.panel-head');
     const meter = document.createElement('div');
     meter.className = 'mission-meter';
     meter.innerHTML = `<div class="mm-track"><div class="mm-fill"></div></div><span class="mm-text"></span>`;
     head.appendChild(meter);
     panel._meter = meter;
-    panel._idx = idx;
   });
 
-  function renderBadges(target) {
-    target.innerHTML = MISSIONS.map((m, i) => {
-      const on = doneMissions.has(i + 1);
-      return `<div class="badge-slot ${on ? 'on' : ''}" title="${on ? 'Conquista desbloqueada' : 'Bloqueada'}: ${m.badge}">
-        <span class="ms ${on ? 'fill' : ''}">${on ? m.icon : 'lock'}</span>
-        <small>${m.badge}</small>
-      </div>`;
-    }).join('');
-  }
-
   function updateGame() {
-    let fieldXp = 0;
+    let filledTotal = 0;
     panels.forEach((panel, idx) => {
       const items = panelItems[idx];
       const filled = items.filter((fn) => fn()).length;
-      fieldXp += filled * XP_PER_FIELD;
+      filledTotal += filled;
       const pct = items.length ? Math.round((filled / items.length) * 100) : 0;
       panel._meter.querySelector('.mm-fill').style.width = pct + '%';
-      panel._meter.querySelector('.mm-text').textContent = `${filled}/${items.length} campos · +${filled * XP_PER_FIELD} XP`;
+      panel._meter.querySelector('.mm-text').textContent = `${filled} de ${items.length} respondidas`;
     });
-    const xp = fieldXp + doneMissions.size * XP_PER_MISSION;
-    const lvl = doneMissions.size;
-
-    xpValue.textContent = xp;
-    xpText.textContent = xp;
-    xpMaxEl.textContent = MAX_XP;
-    xpFill.style.width = Math.min(100, (xp / MAX_XP) * 100) + '%';
-    levelNum.textContent = lvl + 1;
-    levelNumTxt.textContent = lvl + 1;
-    levelName.textContent = LEVELS[lvl];
-    const next = MISSIONS.findIndex((_, i) => !doneMissions.has(i + 1));
-    nextGoal.textContent = next === -1 ? 'Todas as conquistas desbloqueadas' : `Próxima conquista: ${MISSIONS[next].badge}`;
-
-    if (xp > lastXp) {
-      const pill = xpValue.parentElement;
-      pill.classList.remove('bump');
-      void pill.offsetWidth;
-      pill.classList.add('bump');
-    }
-    lastXp = xp;
-    renderBadges(badgeRow);
+    // 70% pelo preenchimento + 30% pelas etapas concluídas
+    const pct = Math.min(100, Math.round((filledTotal / TOTAL_ITEMS) * 70 + (doneMissions.size / STEPS.length) * 30));
+    xpText.textContent = filledTotal;
+    xpMaxEl.textContent = TOTAL_ITEMS;
+    xpFill.style.width = pct + '%';
+    pctValue.textContent = pct + '%';
+    pcRing.style.setProperty('--p', pct);
+    levelName.textContent = doneMissions.size === STEPS.length ? 'Briefing enviado' : `Etapa ${currentStep} de ${STEPS.length}`;
+    const next = STEPS.findIndex((_, i) => !doneMissions.has(i + 1));
+    nextGoal.textContent = next === -1 ? 'Todas as etapas concluídas' : `Agora: ${STEPS[next].name}`;
   }
 
-  function showToast(missionNum) {
-    const m = MISSIONS[missionNum - 1];
-    document.getElementById('toastIcon').textContent = m.icon;
-    document.getElementById('toastKicker').textContent = `MISSÃO 0${missionNum} CONCLUÍDA`;
-    document.getElementById('toastTitle').textContent = `Conquista: ${m.badge}`;
-    document.getElementById('toastSub').textContent = `+${XP_PER_MISSION} XP · Nível ${doneMissions.size + 1}: ${LEVELS[doneMissions.size]}`;
-    const confetti = document.getElementById('confetti');
-    confetti.innerHTML = Array.from({ length: 16 }, (_, i) =>
-      `<i style="--x:${Math.round(Math.cos((i / 16) * 6.283) * 70)}px;--y:${Math.round(Math.sin((i / 16) * 6.283) * 46)}px;--d:${(i % 4) * 40}ms" class="${i % 3 === 0 ? 'k' : ''}"></i>`
-    ).join('');
+  function showToast(stepNum) {
+    const s = STEPS[stepNum - 1];
+    document.getElementById('toastKicker').textContent = `ETAPA 0${stepNum} CONCLUÍDA`;
+    document.getElementById('toastTitle').textContent = `${s.name}: respostas salvas`;
+    document.getElementById('toastSub').textContent = stepNum < STEPS.length ? `Próxima: ${STEPS[stepNum].name}` : 'Briefing enviado para a equipe';
     toast.hidden = false;
     toast.classList.remove('show');
     void toast.offsetWidth;
@@ -149,16 +115,14 @@
     toastTimer = setTimeout(() => {
       toast.classList.remove('show');
       setTimeout(() => (toast.hidden = true), 300);
-    }, 3200);
+    }, 2600);
   }
 
   function completeMission(step) {
     if (doneMissions.has(step)) return;
     doneMissions.add(step);
     updateGame();
-    showToast(step);
-    const slot = badgeRow.children[step - 1];
-    if (slot) slot.classList.add('pop');
+    if (step < STEPS.length) showToast(step);
   }
 
   // Phone mask (Brazil)
@@ -555,7 +519,8 @@
       t.classList.toggle('completed', doneMissions.has(s));
     });
 
-    stepCounter.textContent = `Missão ${currentStep} de ${TOTAL_STEPS}`;
+    stepCounter.textContent = `Etapa ${currentStep} de ${TOTAL_STEPS}`;
+    updateGame();
     progressFill.style.width = `${(currentStep / TOTAL_STEPS) * 100}%`;
 
     prevBtn.hidden = currentStep === 1;
@@ -656,7 +621,6 @@
 
       // Show success state
       completeMission(6);
-      renderBadges(successBadges);
       renderReview(successReviewBox, false);
       successWaBtn.href = buildWhatsAppUrl(true);
       form.hidden = true;
@@ -664,7 +628,7 @@
       stepperNav.hidden = true;
       successSection.hidden = false;
       progressFill.style.width = '100%';
-      stepCounter.textContent = 'Missão cumprida';
+      stepCounter.textContent = 'Briefing enviado';
       if (saveStatusText) saveStatusText.textContent = 'Briefing enviado';
       goToStepTabsDone();
       localStorage.removeItem(STORAGE_KEY);

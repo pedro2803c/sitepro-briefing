@@ -1147,3 +1147,10 @@ textarea.invalid {
 .toast.toast-final .toast-emblem { width: 44px; height: 44px; }
 .toast.toast-final .toast-emblem .ms { font-size: 28px; }
 .toast.toast-final .toast-txt strong { font-size: 16px; }
+
+/* Anel de progresso na cor da marca */
+.pc-ring { background: conic-gradient(var(--lime) calc(var(--p) * 1%), #ECECE8 0); box-shadow: inset 0 0 0 1px rgba(11,11,12,.06); }
+.pc-ring.done { background: var(--lime); }
+.pc-ring.done::before { background: var(--lime); inset: 0; }
+
+[hidden] { display: none !important; }

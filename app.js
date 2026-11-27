@@ -135,6 +135,7 @@
     xpFill.style.width = finalPct + '%';
     pctValue.textContent = finalPct + '%';
     pcRing.style.setProperty('--p', finalPct);
+    pcRing.classList.toggle('done', finalPct === 100);
     levelName.textContent = doneMissions.size === STEPS.length ? 'Briefing enviado' : `Etapa ${currentStep} de ${STEPS.length}`;
     const next = STEPS.findIndex((_, i) => !doneMissions.has(i + 1));
     nextGoal.textContent = next === -1 ? 'Todas as etapas concluídas' : `Agora: ${STEPS[next].name}`;

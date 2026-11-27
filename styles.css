@@ -1136,3 +1136,6 @@ textarea.invalid {
 
 .mini-link { white-space: nowrap; }
 .label-row { align-items: flex-end; }
+
+/* Ícone dentro do padrão da marca */
+.save-pill .ms { color: var(--ink); }

@@ -26,8 +26,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,0..1,0&icon_names=arrow_back,arrow_forward,check,check_circle,cloud_done,content_copy,dashboard,forum,lightbulb,palette,print,restart_alt,schedule,send,shield_lock,storefront,work&display=block" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css?v=3" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,500,0..1,0&icon_names=arrow_back,arrow_forward,check,check_circle,cloud_done,content_copy,dashboard,folder_open,forum,image,lightbulb,palette,picture_as_pdf,print,restart_alt,schedule,send,shield_lock,storefront,work&display=block" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css?v=4" />
 </head>
 <body>
   <header class="topbar">
@@ -255,6 +255,28 @@
           </div>
         </div>
 
+        <div class="brand-files">
+          <div class="brand-files-head">
+            <span class="ms">folder_open</span>
+            <div>
+              <strong>Arquivos da sua marca</strong>
+              <small>Cole os links do Google Drive, Dropbox ou OneDrive. Deixe o compartilhamento como “Qualquer pessoa com o link pode ver”.</small>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="logo_link"><span class="ms">image</span>Link da logo <span class="opt">(PNG, SVG, PDF ou AI)</span></label>
+              <input id="logo_link" name="logo_link" type="url" inputmode="url" maxlength="400" placeholder="https://drive.google.com/..." />
+              <span class="err" data-err-for="logo_link"></span>
+            </div>
+            <div class="field">
+              <label for="manual_marca"><span class="ms">picture_as_pdf</span>PDF da marca / manual de identidade <span class="opt">(se tiver)</span></label>
+              <input id="manual_marca" name="manual_marca" type="url" inputmode="url" maxlength="400" placeholder="https://drive.google.com/..." />
+              <span class="err" data-err-for="manual_marca"></span>
+            </div>
+          </div>
+        </div>
+
         <div class="field">
           <label for="cores">Cores da sua marca ou preferidas</label>
           <div class="color-row">
@@ -325,7 +347,7 @@
             </select>
           </div>
           <div class="field">
-            <label for="link_arquivos">Link da pasta com logo e fotos <span class="opt">(opcional)</span></label>
+            <label for="link_arquivos">Link da pasta com fotos e outros arquivos <span class="opt">(opcional)</span></label>
             <input id="link_arquivos" name="link_arquivos" type="url" maxlength="300" placeholder="https://drive.google.com/... (ou envie no WhatsApp ao final)" />
           </div>
         </div>
@@ -473,6 +495,6 @@
 
   </div>
 
-  <script src="/app.js?v=3" defer></script>
+  <script src="/app.js?v=4" defer></script>
 </body>
 </html>

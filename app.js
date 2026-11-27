@@ -191,6 +191,8 @@
       cta_principal: getVal('cta_principal'),
 
       logo_status: getVal('logo_status'),
+      logo_link: getVal('logo_link'),
+      manual_marca: getVal('manual_marca'),
       tema_fundo: getVal('tema_fundo'),
       cores: getVal('cores'),
       estilo: getRadio('estilo'),
@@ -318,6 +320,16 @@
       }
     }
 
+    if (step === 3) {
+      ['logo_link', 'manual_marca'].forEach((id) => {
+        const val = (document.getElementById(id).value || '').trim();
+        if (val && !/^https?:\/\/\S+\.\S+/i.test(val)) {
+          setErr(id, 'Cole o link completo, começando com https://');
+          ok = false;
+        }
+      });
+    }
+
     if (step === 6) {
       if (!document.getElementById('lgpd').checked) {
         setErr('lgpd', 'Confirme a autorização acima para enviar o briefing.');
@@ -377,6 +389,8 @@
         step: 3,
         items: [
           ['Logotipo', d.logo_status],
+          ['Link da logo', d.logo_link, true],
+          ['PDF / manual da marca', d.manual_marca, true],
           ['Estilo visual', d.estilo],
           ['Tema de fundo', d.tema_fundo],
           ['Cores preferidas', d.cores],
@@ -477,6 +491,8 @@
       ``,
       `*03. IDENTIDADE VISUAL*`,
       `• Logo: ${d.logo_status}`,
+      d.logo_link ? `• Link da logo: ${d.logo_link}` : null,
+      d.manual_marca ? `• PDF/manual da marca: ${d.manual_marca}` : null,
       `• Estilo: ${d.estilo}`,
       `• Fundo: ${d.tema_fundo}`,
       d.cores ? `• Cores: ${d.cores}` : null,
@@ -589,6 +605,8 @@
       '15_Objetivos': d.objetivo.join(', '),
       '16_CTA_Principal': d.cta_principal || '-',
       '17_Logotipo': d.logo_status,
+      '17a_Link_Logo': d.logo_link || '-',
+      '17b_PDF_Manual_Marca': d.manual_marca || '-',
       '18_Estilo_Visual': d.estilo,
       '19_Tema_Fundo': d.tema_fundo,
       '20_Cores': d.cores || '-',

@@ -1073,3 +1073,12 @@ textarea.invalid {
 
 .hero h1, .hero-sub { text-wrap: balance; }
 .hero h1 { max-width: 760px; }
+
+/* Arquivos da marca */
+.brand-files { border: 1.5px dashed var(--border-strong); border-radius: var(--radius-sm); padding: 16px 16px 2px; margin-bottom: 18px; background: #FCFCFA; }
+.brand-files-head { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 14px; }
+.brand-files-head > .ms { font-size: 22px; background: var(--lime); border: 1.5px solid var(--ink); border-radius: 8px; padding: 4px; }
+.brand-files-head strong { display: block; font-family: 'Manrope', sans-serif; font-size: 15px; }
+.brand-files-head small { color: var(--ink-soft); font-size: 12.5px; }
+.brand-files label { display: flex !important; align-items: center; gap: 5px; flex-wrap: wrap; }
+.brand-files label .ms { font-size: 18px; }

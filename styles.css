@@ -1139,3 +1139,11 @@ textarea.invalid {
 
 /* Ícone dentro do padrão da marca */
 .save-pill .ms { color: var(--ink); }
+
+/* Comemoração final */
+.confetti-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 90; }
+.toast.toast-final { top: 92px; bottom: auto; transform: translate(-50%, -160%); border-color: var(--lime); padding: 14px 22px 14px 14px; }
+.toast.toast-final.show { transform: translate(-50%, 0); }
+.toast.toast-final .toast-emblem { width: 44px; height: 44px; }
+.toast.toast-final .toast-emblem .ms { font-size: 28px; }
+.toast.toast-final .toast-txt strong { font-size: 16px; }

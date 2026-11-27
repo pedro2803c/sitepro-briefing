@@ -129,11 +129,12 @@
     });
     // 70% pelo preenchimento + 30% pelas etapas concluídas
     const pct = Math.min(100, Math.round((filledTotal / TOTAL_ITEMS) * 70 + (doneMissions.size / STEPS.length) * 30));
+    const finalPct = doneMissions.size === STEPS.length ? 100 : pct;
     xpText.textContent = filledTotal;
     xpMaxEl.textContent = TOTAL_ITEMS;
-    xpFill.style.width = pct + '%';
-    pctValue.textContent = pct + '%';
-    pcRing.style.setProperty('--p', pct);
+    xpFill.style.width = finalPct + '%';
+    pctValue.textContent = finalPct + '%';
+    pcRing.style.setProperty('--p', finalPct);
     levelName.textContent = doneMissions.size === STEPS.length ? 'Briefing enviado' : `Etapa ${currentStep} de ${STEPS.length}`;
     const next = STEPS.findIndex((_, i) => !doneMissions.has(i + 1));
     nextGoal.textContent = next === -1 ? 'Todas as etapas concluídas' : `Agora: ${STEPS[next].name}`;
@@ -160,6 +161,86 @@
     doneMissions.add(step);
     updateGame();
     if (step < STEPS.length) showToast(step);
+  }
+
+  // ---------- Comemoração final (confetes) ----------
+  function launchConfetti() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const canvas = document.createElement('canvas');
+    canvas.className = 'confetti-canvas';
+    canvas.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const resize = () => {
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    window.addEventListener('resize', resize);
+    const colors = ['#D5F65A', '#D5F65A', '#0B0B0C', '#FFFFFF', '#C2E544'];
+    const W = () => window.innerWidth;
+    const H = () => window.innerHeight;
+    const pieces = [];
+    const burst = (x, dir, n) => {
+      for (let i = 0; i < n; i++) {
+        const angle = (-Math.PI / 2) + dir * (Math.random() * 0.9 + 0.15);
+        const speed = 9 + Math.random() * 10;
+        pieces.push({
+          x, y: H() + 10,
+          vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 4,
+          w: 6 + Math.random() * 7, h: 9 + Math.random() * 9,
+          r: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.35,
+          tilt: Math.random() * Math.PI, vt: 0.08 + Math.random() * 0.12,
+          color: colors[(Math.random() * colors.length) | 0],
+          round: Math.random() < 0.25,
+        });
+      }
+    };
+    burst(W() * 0.08, 1, 110);
+    burst(W() * 0.92, -1, 110);
+    setTimeout(() => { burst(W() * 0.3, 1, 60); burst(W() * 0.7, -1, 60); }, 450);
+    const start = performance.now();
+    const frame = (now) => {
+      ctx.clearRect(0, 0, W(), H());
+      const t = now - start;
+      pieces.forEach((p) => {
+        p.vy += 0.32; p.vx *= 0.985; p.vy *= 0.985;
+        p.x += p.vx; p.y += p.vy; p.r += p.vr; p.tilt += p.vt;
+        const sy = Math.abs(Math.cos(p.tilt));
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.r);
+        ctx.globalAlpha = t > 3800 ? Math.max(0, 1 - (t - 3800) / 900) : 1;
+        ctx.fillStyle = p.color;
+        if (p.color === '#FFFFFF') { ctx.strokeStyle = 'rgba(11,11,12,.25)'; ctx.lineWidth = 1; }
+        if (p.round) { ctx.beginPath(); ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2); ctx.fill(); if (p.color === '#FFFFFF') ctx.stroke(); }
+        else { ctx.fillRect(-p.w / 2, (-p.h / 2) * sy, p.w, p.h * sy); if (p.color === '#FFFFFF') ctx.strokeRect(-p.w / 2, (-p.h / 2) * sy, p.w, p.h * sy); }
+        ctx.restore();
+      });
+      if (t < 4700) requestAnimationFrame(frame);
+      else { window.removeEventListener('resize', resize); canvas.remove(); }
+    };
+    requestAnimationFrame(frame);
+  }
+
+  function celebrate() {
+    document.getElementById('toastIcon').textContent = 'check_circle';
+    document.getElementById('toastKicker').textContent = '6 DE 6 ETAPAS CONCLUÍDAS';
+    document.getElementById('toastTitle').textContent = 'Parabéns! Você completou todo o briefing';
+    document.getElementById('toastSub').textContent = 'Nossa equipe já recebeu suas respostas';
+    toast.classList.add('toast-final');
+    toast.hidden = false;
+    toast.classList.remove('show');
+    void toast.offsetWidth;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => { toast.hidden = true; toast.classList.remove('toast-final'); }, 300);
+    }, 5200);
+    launchConfetti();
   }
 
   // Phone mask (Brazil)
@@ -692,6 +773,7 @@
       goToStepTabsDone();
       localStorage.removeItem(STORAGE_KEY);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      celebrate();
     } catch (_) {
       fallbackWaBtn.href = buildWhatsAppUrl(false);
       submitError.hidden = false;

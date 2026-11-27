@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Briefing Oficial do Seu Site | SitePro Brasil</title>
+  <meta name="description" content="Preencha o briefing oficial da SitePro Brasil em cerca de 5 minutos para colocarmos o site profissional da sua empresa no ar em até 72h." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="/assets/favicon.png" />
+
+  <!-- Open Graph / WhatsApp Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://briefing.siteprobrasil.com.br/" />
+  <meta property="og:title" content="Briefing Oficial do Seu Site | SitePro Brasil" />
+  <meta property="og:description" content="Preencha em cerca de 5 minutos para nossa equipe iniciar a criação do seu site profissional .com.br." />
+  <meta property="og:image" content="https://briefing.siteprobrasil.com.br/assets/og-briefing.jpg" />
+  <meta property="og:image:secure_url" content="https://briefing.siteprobrasil.com.br/assets/og-briefing.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Briefing Oficial do Seu Site | SitePro Brasil" />
+  <meta name="twitter:description" content="Preencha em cerca de 5 minutos para colocarmos o site profissional da sua empresa no ar em até 72h." />
+  <meta name="twitter:image" content="https://briefing.siteprobrasil.com.br/assets/og-briefing.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="https://www.siteprobrasil.com.br/" target="_blank" rel="noopener" aria-label="SitePro Brasil">
+        <img src="/assets/logo.png" alt="SitePro Brasil — Sites Profissionais" height="34" />
+      </a>
+      <div class="topbar-meta">
+        <span class="save-pill" id="saveStatus" aria-live="polite">
+          <span class="dot"></span>
+          <span id="saveStatusText">Rascunho automático ativo</span>
+        </span>
+        <span class="step-counter" id="stepCounter">Etapa 1 de 6</span>
+      </div>
+    </div>
+    <div class="progress-track" aria-hidden="true">
+      <div class="progress-fill" id="progressFill" style="width: 16.66%"></div>
+    </div>
+  </header>
+
+  <main class="container main-wrap">
+    <!-- Hero -->
+    <section class="hero" id="heroSection">
+      <div class="badge-lime">BRIEFING OFICIAL · ENTREGA EM ATÉ 72H APÓS O ENVIO</div>
+      <h1>Vamos colocar o site profissional da sua empresa no ar.</h1>
+      <p class="hero-sub">
+        Preencha as 6 etapas abaixo com calma. Suas respostas ficam salvas automaticamente neste navegador e vão direto para a equipe de criação da SitePro Brasil.
+      </p>
+      <div class="hero-chips">
+        <span class="chip">⏱ Média de 5 minutos</span>
+        <span class="chip">💾 Salva automaticamente</span>
+        <span class="chip">🔒 Dados protegidos (LGPD)</span>
+      </div>
+    </section>
+
+    <!-- Step Navigation -->
+    <nav class="stepper" id="stepperNav" aria-label="Etapas do briefing">
+      <button type="button" class="step-tab active" data-step="1"><span class="num">01</span><span class="lbl">Empresa</span></button>
+      <button type="button" class="step-tab" data-step="2"><span class="num">02</span><span class="lbl">Negócio</span></button>
+      <button type="button" class="step-tab" data-step="3"><span class="num">03</span><span class="lbl">Visual</span></button>
+      <button type="button" class="step-tab" data-step="4"><span class="num">04</span><span class="lbl">Estrutura</span></button>
+      <button type="button" class="step-tab" data-step="5"><span class="num">05</span><span class="lbl">Canais</span></button>
+      <button type="button" class="step-tab" data-step="6"><span class="num">06</span><span class="lbl">Revisão</span></button>
+    </nav>
+
+    <!-- Briefing Form -->
+    <form id="briefingForm" class="card form-card" novalidate>
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp-field" />
+
+      <!-- ETAPA 1 -->
+      <fieldset class="step-panel active" data-step="1">
+        <div class="panel-head">
+          <span class="panel-kicker">ETAPA 01 DE 06</span>
+          <h2>Dados da empresa e domínio</h2>
+          <p>Informações básicas para identificarmos seu projeto e prepararmos o domínio `.com.br` e o e-mail profissional.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="responsavel">Seu nome completo <span class="req">*</span></label>
+            <input id="responsavel" name="responsavel" type="text" required maxlength="100" placeholder="Ex.: João Silva" />
+            <span class="err" data-err-for="responsavel"></span>
+          </div>
+          <div class="field">
+            <label for="empresa">Nome da empresa / marca <span class="req">*</span></label>
+            <input id="empresa" name="empresa" type="text" required maxlength="120" placeholder="Ex.: Clínica Vida Plena" />
+            <span class="err" data-err-for="empresa"></span>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="whatsapp">Seu WhatsApp com DDD <span class="req">*</span></label>
+            <input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" required maxlength="16" placeholder="(11) 99999-9999" data-phone />
+            <span class="err" data-err-for="whatsapp"></span>
+          </div>
+          <div class="field">
+            <label for="email">Seu e-mail principal <span class="req">*</span></label>
+            <input id="email" name="email" type="email" required maxlength="120" placeholder="voce@empresa.com.br" />
+            <span class="err" data-err-for="email"></span>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="segmento">Segmento de atuação <span class="req">*</span></label>
+            <input id="segmento" name="segmento" type="text" required maxlength="100" placeholder="Ex.: Odontologia, Advocacia, Engenharia, Estética..." />
+            <span class="err" data-err-for="segmento"></span>
+          </div>
+          <div class="field">
+            <label for="cidade">Cidade / Estado e área de atendimento <span class="req">*</span></label>
+            <input id="cidade" name="cidade" type="text" required maxlength="120" placeholder="Ex.: São Paulo/SP (atendimento presencial e online)" />
+            <span class="err" data-err-for="cidade"></span>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="endereco">Endereço comercial <span class="opt">(se quiser exibir no site)</span></label>
+            <input id="endereco" name="endereco" type="text" maxlength="180" placeholder="Rua, número, bairro — ou deixe em branco se for só online" />
+          </div>
+          <div class="field">
+            <label for="horario">Horário de atendimento <span class="opt">(opcional)</span></label>
+            <input id="horario" name="horario" type="text" maxlength="120" placeholder="Ex.: Seg a Sex, 08h às 18h | Sáb, 08h às 12h" />
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="dominio_status">Situação do domínio `.com.br` <span class="req">*</span></label>
+            <select id="dominio_status" name="dominio_status" required>
+              <option value="Quero registrar um novo .com.br (incluso no plano)">Quero registrar um novo .com.br (incluso no plano)</option>
+              <option value="Já possuo domínio registrado">Já possuo domínio registrado</option>
+              <option value="Ainda quero ajuda para escolher o nome">Ainda quero ajuda para escolher o nome</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="dominio_desejado">Domínio desejado (ou atual)</label>
+            <input id="dominio_desejado" name="dominio_desejado" type="text" maxlength="100" placeholder="Ex.: suaempresa.com.br (pode colocar 2 opções)" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email_profissional">E-mail profissional desejado <span class="opt">(1 caixa inclusa no plano)</span></label>
+          <input id="email_profissional" name="email_profissional" type="text" maxlength="100" placeholder="Ex.: contato@suaempresa.com.br ou comercial@suaempresa.com.br" />
+        </div>
+      </fieldset>
+
+      <!-- ETAPA 2 -->
+      <fieldset class="step-panel" data-step="2">
+        <div class="panel-head">
+          <span class="panel-kicker">ETAPA 02 DE 06</span>
+          <h2>Sobre o negócio, serviços e objetivo</h2>
+          <p>Com essas respostas vamos escrever textos claros e persuasivos voltados para o seu público.</p>
+        </div>
+
+        <div class="field">
+          <label for="sobre_empresa">Conte em poucas palavras o que sua empresa faz <span class="req">*</span></label>
+          <textarea id="sobre_empresa" name="sobre_empresa" rows="4" required maxlength="1200" placeholder="Ex.: Somos uma clínica especializada em implantes e estética dental em Curitiba, com foco em atendimento humanizado e tecnologia digital..."></textarea>
+          <span class="err" data-err-for="sobre_empresa"></span>
+        </div>
+
+        <div class="field">
+          <label for="servicos">Principais serviços ou produtos para destacar no site <span class="req">*</span></label>
+          <textarea id="servicos" name="servicos" rows="4" required maxlength="1200" placeholder="Liste de 3 a 6 serviços principais (um por linha). Ex.:&#10;- Consultoria empresarial&#10;- Planejamento tributário&#10;- Abertura de empresas"></textarea>
+          <span class="err" data-err-for="servicos"></span>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="publico">Quem é seu cliente ideal (público-alvo)?</label>
+            <textarea id="publico" name="publico" rows="3" maxlength="600" placeholder="Ex.: Donos de pequenas empresas, famílias da região, pacientes particulares..."></textarea>
+          </div>
+          <div class="field">
+            <label for="diferenciais">Quais são os principais diferenciais da sua empresa?</label>
+            <textarea id="diferenciais" name="diferenciais" rows="3" maxlength="600" placeholder="Ex.: Atendimento rápido, garantia estendida, equipe especializada, orçamento transparente..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Principal objetivo do site <span class="req">*</span></label>
+          <div class="choice-grid" data-choice-group="objetivo">
+            <label class="choice-card"><input type="checkbox" name="objetivo" value="Gerar contatos no WhatsApp" checked /><span>Gerar contatos no WhatsApp</span></label>
+            <label class="choice-card"><input type="checkbox" name="objetivo" value="Receber pedidos de orçamento" /><span>Receber pedidos de orçamento</span></label>
+            <label class="choice-card"><input type="checkbox" name="objetivo" value="Passar autoridade e credibilidade" /><span>Passar autoridade e credibilidade</span></label>
+            <label class="choice-card"><input type="checkbox" name="objetivo" value="Agendar consultas ou visitas" /><span>Agendar consultas ou visitas</span></label>
+            <label class="choice-card"><input type="checkbox" name="objetivo" value="Apresentar portfólio e serviços" /><span>Apresentar portfólio e serviços</span></label>
+            <label class="choice-card"><input type="checkbox" name="objetivo" value="Receber tráfego de anúncios (Google / Meta)" /><span>Receber tráfego de anúncios</span></label>
+          </div>
+          <span class="err" data-err-for="objetivo"></span>
+        </div>
+
+        <div class="field">
+          <label for="cta_principal">Texto do botão principal (chamada para ação)</label>
+          <input id="cta_principal" name="cta_principal" type="text" maxlength="80" placeholder="Ex.: Solicitar orçamento no WhatsApp / Agendar avaliação / Falar com especialista" />
+        </div>
+      </fieldset>
+
+      <!-- ETAPA 3 -->
+      <fieldset class="step-panel" data-step="3">
+        <div class="panel-head">
+          <span class="panel-kicker">ETAPA 03 DE 06</span>
+          <h2>Identidade visual e referências</h2>
+          <p>Defina o estilo visual do seu site. Não aplicamos a identidade da SitePro — criamos com a cara da sua marca.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="logo_status">Você já possui logotipo? <span class="req">*</span></label>
+            <select id="logo_status" name="logo_status" required>
+              <option value="Sim, tenho a logo em boa qualidade">Sim, tenho a logo em boa qualidade</option>
+              <option value="Tenho, mas só em imagem simples (WhatsApp/Instagram)">Tenho, mas só em imagem simples</option>
+              <option value="Ainda não tenho logo (usar nome tipográfico clean)">Ainda não tenho logo (usar nome tipográfico clean)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="tema_fundo">Preferência de fundo do site</label>
+            <select id="tema_fundo" name="tema_fundo">
+              <option value="Claro e limpo (branco / tons suaves)">Claro e limpo (branco / tons suaves)</option>
+              <option value="Escuro e sofisticado (dark mode premium)">Escuro e sofisticado (dark mode premium)</option>
+              <option value="Misto (seções claras e escuras intercaladas)">Misto (seções claras e escuras intercaladas)</option>
+              <option value="Deixo a critério da equipe de design">Deixo a critério da equipe de design</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="cores">Cores da sua marca ou preferidas</label>
+          <div class="color-row">
+            <input id="cores" name="cores" type="text" maxlength="160" placeholder="Ex.: Azul marinho, branco e dourado (ou códigos HEX como #0F172A)" />
+            <div class="swatches" aria-label="Paletas sugeridas">
+              <button type="button" class="swatch-btn" data-palette="Azul marinho, branco e cinza claro" title="Corporativo Azul"><span style="background:#0F2942"></span><span style="background:#FFFFFF"></span></button>
+              <button type="button" class="swatch-btn" data-palette="Preto, branco e dourado" title="Luxo Dark/Ouro"><span style="background:#111111"></span><span style="background:#C8A45D"></span></button>
+              <button type="button" class="swatch-btn" data-palette="Verde esmeralda, creme e grafite" title="Saúde & Bem-estar"><span style="background:#1B5E4A"></span><span style="background:#F7F3EC"></span></button>
+              <button type="button" class="swatch-btn" data-palette="Terracota, bege quente e marrom escuro" title="Acolhedor / Artesanal"><span style="background:#B85D3B"></span><span style="background:#FBF6F0"></span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Estilo visual desejado <span class="req">*</span></label>
+          <div class="choice-grid" data-choice-group="estilo">
+            <label class="choice-card"><input type="radio" name="estilo" value="Moderno & Clean" checked /><span><strong>Moderno & Clean</strong><small>Visual atual, leve e direto</small></span></label>
+            <label class="choice-card"><input type="radio" name="estilo" value="Corporativo & Sério" /><span><strong>Corporativo & Sério</strong><small>Foco em confiança e solidez</small></span></label>
+            <label class="choice-card"><input type="radio" name="estilo" value="Sofisticado & Premium" /><span><strong>Sofisticado & Premium</strong><small>Alto padrão e elegância</small></span></label>
+            <label class="choice-card"><input type="radio" name="estilo" value="Acolhedor & Humano" /><span><strong>Acolhedor & Humano</strong><small>Próximo, calmo e empático</small></span></label>
+            <label class="choice-card"><input type="radio" name="estilo" value="Minimalista & Tech" /><span><strong>Minimalista & Tech</strong><small>Forte contraste e agilidade</small></span></label>
+            <label class="choice-card"><input type="radio" name="estilo" value="Vibrante & Criativo" /><span><strong>Vibrante & Criativo</strong><small>Mais cor, energia e destaque</small></span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="referencias">Sites de referência que você gosta <span class="opt">(opcional)</span></label>
+          <textarea id="referencias" name="referencias" rows="3" maxlength="800" placeholder="Cole 1 a 3 links de sites que você acha bonitos e diga o que gostou neles (cores, organização, fotos...)."></textarea>
+        </div>
+
+        <div class="field">
+          <label for="nao_gosta">Existe algo que você NÃO quer no site? <span class="opt">(opcional)</span></label>
+          <input id="nao_gosta" name="nao_gosta" type="text" maxlength="240" placeholder="Ex.: Não quero cores chamativas, não quero exibir preços, não quero fotos genéricas demais..." />
+        </div>
+      </fieldset>
+
+      <!-- ETAPA 4 -->
+      <fieldset class="step-panel" data-step="4">
+        <div class="panel-head">
+          <span class="panel-kicker">ETAPA 04 DE 06</span>
+          <h2>Estrutura, seções e materiais</h2>
+          <p>Marque as seções que fazem sentido para o seu negócio e informe se você já tem fotos e logo prontos.</p>
+        </div>
+
+        <div class="field">
+          <label>Seções desejadas no site</label>
+          <div class="choice-grid">
+            <label class="choice-card"><input type="checkbox" name="secoes" value="Banner principal com chamada para ação" checked /><span>Banner principal com CTA</span></label>
+            <label class="choice-card"><input type="checkbox" name="secoes" value="Sobre a empresa / história" checked /><span>Sobre a empresa</span></label>
+            <label class="choice-card"><input type="checkbox" name="secoes" value="Lista de serviços ou soluções" checked /><span>Serviços / Soluções</span></label>
+            <label class="choice-card"><input type="checkbox" name="secoes" value="Diferenciais / Por que escolher" checked /><span>Diferenciais</span></label>
+            <label class="choice-card"><input type="checkbox" name="secoes" value="Portfólio / Galeria de fotos" /><span>Portfólio / Galeria</span></label>
+            <label class="choice-card"><input type="checkbox" name="secoes" value="Depoimentos de clientes" checked /><span>Depoimentos</span></label>
+            <label class="choice-card"><input type="checkbox" name="secoes" value="Perguntas Frequentes (FAQ)" checked /><span>Perguntas Frequentes (FAQ)</span></label>
+            <label class="choice-card"><input type="checkbox" name="secoes" value="Mapa do Google / Localização" /><span>Mapa / Localização</span></label>
+            <label class="choice-card"><input type="checkbox" name="secoes" value="Formulário de contato / orçamento" checked /><span>Formulário de contato</span></label>
+            <label class="choice-card"><input type="checkbox" name="secoes" value="Botão flutuante de WhatsApp" checked /><span>Botão flutuante WhatsApp</span></label>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="fotos_status">Fotos da empresa, equipe ou serviços</label>
+            <select id="fotos_status" name="fotos_status">
+              <option value="Tenho fotos próprias e vou enviar">Tenho fotos próprias e vou enviar</option>
+              <option value="Tenho algumas fotos, pode complementar com banco profissional">Tenho algumas, complementar com banco profissional</option>
+              <option value="Não tenho fotos, usar banco de imagens profissionais">Não tenho, usar banco de imagens profissionais</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="link_arquivos">Link da pasta com logo e fotos <span class="opt">(opcional)</span></label>
+            <input id="link_arquivos" name="link_arquivos" type="url" maxlength="300" placeholder="https://drive.google.com/... (ou envie no WhatsApp ao final)" />
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>Dica prática:</strong> Se preferir, não precisa subir pasta agora. Assim que finalizar o briefing, você verá um botão direto para nos enviar a logo e as fotos pelo WhatsApp.
+        </div>
+      </fieldset>
+
+      <!-- ETAPA 5 -->
+      <fieldset class="step-panel" data-step="5">
+        <div class="panel-head">
+          <span class="panel-kicker">ETAPA 05 DE 06</span>
+          <h2>Canais de atendimento e redes sociais</h2>
+          <p>Vamos conectar os botões do site diretamente ao seu WhatsApp e perfis oficiais.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <div class="label-row">
+              <label for="whats_site">WhatsApp que vai receber os clientes no site</label>
+              <button type="button" class="mini-link" id="copyWhatsBtn">Usar o mesmo da Etapa 1</button>
+            </div>
+            <input id="whats_site" name="whats_site" type="tel" inputmode="tel" maxlength="16" placeholder="(11) 99999-9999" data-phone />
+          </div>
+          <div class="field">
+            <label for="msg_whats">Mensagem pronta do botão WhatsApp <span class="opt">(opcional)</span></label>
+            <input id="msg_whats" name="msg_whats" type="text" maxlength="180" placeholder="Ex.: Olá! Vim pelo site e gostaria de solicitar um orçamento." />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="instagram">Instagram <span class="opt">(opcional)</span></label>
+            <input id="instagram" name="instagram" type="text" maxlength="120" placeholder="@suaempresa ou link completo" />
+          </div>
+          <div class="field">
+            <label for="facebook">Facebook <span class="opt">(opcional)</span></label>
+            <input id="facebook" name="facebook" type="text" maxlength="120" placeholder="Link da página" />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="linkedin">LinkedIn / YouTube <span class="opt">(opcional)</span></label>
+            <input id="linkedin" name="linkedin" type="text" maxlength="160" placeholder="Links dos perfis (se tiver)" />
+          </div>
+          <div class="field">
+            <label for="google_perfil">Link do Google Meu Negócio <span class="opt">(opcional)</span></label>
+            <input id="google_perfil" name="google_perfil" type="text" maxlength="200" placeholder="Link do perfil no Google Maps para puxarmos avaliações" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="rastreamento">Códigos de rastreamento (Meta Pixel, Google Analytics, Google Ads) <span class="opt">(opcional)</span></label>
+          <input id="rastreamento" name="rastreamento" type="text" maxlength="200" placeholder="Se já tiver os IDs, cole aqui para deixarmos instalado" />
+        </div>
+      </fieldset>
+
+      <!-- ETAPA 6 -->
+      <fieldset class="step-panel" data-step="6">
+        <div class="panel-head">
+          <span class="panel-kicker">ETAPA 06 DE 06</span>
+          <h2>Revisão final e envio</h2>
+          <p>Confira rapidamente suas informações. Se quiser ajustar algo, clique em qualquer etapa acima.</p>
+        </div>
+
+        <div class="review-box" id="reviewBox"></div>
+
+        <div class="field">
+          <label for="observacoes">Observações finais ou registros obrigatórios <span class="opt">(CRM, OAB, CREA, CRP, CNPJ no rodapé etc.)</span></label>
+          <textarea id="observacoes" name="observacoes" rows="3" maxlength="1000" placeholder="Algum detalhe importante que nossa equipe precisa saber antes de montar a primeira versão?"></textarea>
+        </div>
+
+        <label class="lgpd-check">
+          <input type="checkbox" id="lgpd" name="lgpd" required />
+          <span>Confirmo que as informações acima pertencem à minha empresa e autorizo a equipe da <strong>SitePro Brasil</strong> a utilizá-las na criação do meu site profissional.</span>
+        </label>
+        <span class="err" data-err-for="lgpd"></span>
+
+        <div class="alert-error" id="submitError" hidden role="alert">
+          <strong>Não conseguimos concluir o envio automático agora.</strong>
+          Você pode tentar novamente em instantes ou clicar abaixo para enviar o resumo completo diretamente pelo WhatsApp.
+          <div class="alert-actions">
+            <a id="fallbackWaBtn" href="#" target="_blank" rel="noopener" class="btn btn-lime">Enviar resumo pelo WhatsApp →</a>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Form Footer Actions -->
+      <div class="form-actions" id="formActions">
+        <button type="button" class="btn btn-ghost" id="prevBtn" hidden>← Voltar</button>
+        <div class="actions-right">
+          <button type="button" class="btn btn-dark" id="nextBtn">Próxima etapa →</button>
+          <button type="submit" class="btn btn-lime" id="submitBtn" hidden>
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="btn-label">Enviar briefing oficial →</span>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Success Screen -->
+    <section class="card success-card" id="successSection" hidden>
+      <div class="success-icon" aria-hidden="true">✓</div>
+      <div class="badge-lime">BRIEFING RECEBIDO COM SUCESSO</div>
+      <h2>Tudo certo! Nossa equipe já recebeu seu briefing.</h2>
+      <p class="success-sub">
+        Agora que recebemos todas as informações, vamos iniciar a criação do seu site profissional. Se você tiver <strong>logo ou fotos</strong> para enviar, clique no botão abaixo para encaminhar direto no nosso WhatsApp junto com a confirmação.
+      </p>
+
+      <div class="success-actions">
+        <a id="successWaBtn" href="#" target="_blank" rel="noopener" class="btn btn-lime btn-lg">Enviar confirmação + logo/fotos no WhatsApp →</a>
+        <div class="success-secondary">
+          <button type="button" class="btn btn-dark" id="copySummaryBtn">Copiar resumo do briefing</button>
+          <button type="button" class="btn btn-ghost" id="printPdfBtn">Salvar / Imprimir PDF</button>
+          <button type="button" class="btn btn-ghost" id="newBriefingBtn">Preencher novo briefing</button>
+        </div>
+      </div>
+
+      <div class="review-box success-review" id="successReviewBox"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>SitePro Brasil</strong> · HUHN TECNOLOGIA E AUTOMAÇÃO LTDA · CNPJ 68.426.644/0001-80
+      </div>
+      <div>
+        Dúvidas? <a href="mailto:sac@andrehuhn.com.br">sac@andrehuhn.com.br</a> · <a href="https://www.siteprobrasil.com.br/" target="_blank" rel="noopener">siteprobrasil.com.br</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>

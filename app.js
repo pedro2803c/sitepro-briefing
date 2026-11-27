@@ -850,6 +850,8 @@
       });
 
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const result = await resp.json().catch(() => ({}));
+      if (String(result.success) !== 'true') throw new Error(result.message || 'Envio não confirmado');
 
       // Show success state
       completeMission(6);

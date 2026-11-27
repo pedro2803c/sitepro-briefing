@@ -1124,3 +1124,15 @@ textarea.invalid {
 .model-none-body small { font-size: 11.5px; color: var(--muted); }
 .model-none .model-check { position: absolute; top: 8px; right: 8px; }
 @media (max-width: 720px) { .model-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+
+/* Etapa atual sempre legível, mesmo já concluída */
+.step-tab.active,
+.step-tab.active.completed { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
+.step-tab.active .num,
+.step-tab.active.completed .num { color: var(--lime); opacity: 1; }
+.step-tab.active .lbl { color: #FFFFFF; }
+.step-tab.active.completed .i-done,
+.step-tab.active .tab-ico .ms { color: var(--lime); }
+
+.mini-link { white-space: nowrap; }
+.label-row { align-items: flex-end; }
